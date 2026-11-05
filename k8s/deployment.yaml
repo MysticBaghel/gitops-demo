@@ -1,0 +1,26 @@
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: gitops-demo
+  namespace: gitops-demo
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: gitops-demo
+
+  template:
+    metadata:
+      labels:
+        app: gitops-demo
+
+    spec:
+      containers:
+        - name: fastapi
+          image: baghelgaurav/gitops-demo:v1
+          ports:
+            - containerPort: 8000
