@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: fastapi
-          image: baghelgaurav/gitops-demo:v1
+          image: baghelgaurav/gitops-demo:sha-bb830b3
           ports:
             - containerPort: 8000
