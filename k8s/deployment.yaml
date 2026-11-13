@@ -24,3 +24,21 @@ spec:
           image: baghelgaurav/gitops-demo:sha-bb830b3
           ports:
             - containerPort: 8000
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: "gitops-demo"
+
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://jaeger.monitoring.svc.cluster.local:4318"
+
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: "http/protobuf"
+
+            - name: OTEL_TRACES_EXPORTER
+              value: "otlp"
+
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+
+            - name: OTEL_LOGS_EXPORTER
+              value: "none"
