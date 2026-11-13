@@ -10,7 +10,7 @@ Argo CD monitors the repository and reconciles the Kubernetes cluster with the d
 
 | Parameter | Value |
 |---|---|
-| Repository | `https://github.com/MysticBaghel/gitops-demo.git` |
+| Repository | `https://github.com/MysticBaghel/gitops-app.git` |
 | Branch | `master` |
 | Manifest Path | `k8s/` |
 | Destination Namespace | `gitops-demo` |

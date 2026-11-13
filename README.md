@@ -140,8 +140,8 @@ Additional observability documentation is maintained in the observability projec
 Clone the repository:
 
 ```bash
-git clone https://github.com/MysticBaghel/gitops-demo.git
-cd gitops-demo
+git clone https://github.com/MysticBaghel/gitops-app.git
+cd gitops-app
 ```
 
 Build the application image locally:
