@@ -8,17 +8,25 @@ The project uses a lightweight FastAPI application to demonstrate containerizati
 
 | Endpoint | Description |
 |---|---|
-| `/` | Returns application information |
-| `/health` | Returns application health |
-| `/docs` | Interactive Swagger documentation |
+| `/` | Returns application information and running status |
+| `/health` | Returns a simple application health response |
+| `/metrics` | Exposes HTTP and application metrics for Prometheus |
+| `/docs` | Interactive Swagger API documentation |
+
+The `/metrics` endpoint is exposed by `prometheus-fastapi-instrumentator`. The application is also instrumented with OpenTelemetry so that incoming FastAPI requests can produce distributed traces.
 
 ## Dependencies
 
-Dependencies are defined in `requirements.txt`.
+Application dependencies are listed in `requirements.txt`:
+
+- `fastapi` and `uvicorn[standard]` — API framework and ASGI server.
+- `prometheus-fastapi-instrumentator` — exposes Prometheus metrics.
+- `opentelemetry-distro[otlp]` — OpenTelemetry distribution and OTLP support.
+- `opentelemetry-instrumentation-fastapi` — FastAPI instrumentation.
 
 ## Dockerfile
 
-The Dockerfile packages the application into a container image.
+The Dockerfile uses `opentelemetry-instrument` to start Uvicorn with automatic OpenTelemetry instrumentation enabled.
 
 ```dockerfile
 FROM python:3.12-slim
@@ -33,16 +41,20 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["opentelemetry-instrument", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-## Build the Image
+`opentelemetry-instrument` is provided by the installed OpenTelemetry packages. In Kubernetes, the Deployment supplies the service name and OTLP collector endpoint through environment variables. The current Deployment sends traces to Jaeger at `http://jaeger.monitoring.svc.cluster.local:4318` using OTLP over HTTP/protobuf.
+
+## Build the Image Locally
+
+Run these commands from the repository root:
 
 ```bash
 docker build --network=host -t gitops-demo:v1 .
 ```
 
-## Run the Container
+## Run the Container Locally
 
 ```bash
 docker run --rm -d \
@@ -56,16 +68,26 @@ docker run --rm -d \
 ```bash
 curl http://localhost:8000/
 curl http://localhost:8000/health
+curl http://localhost:8000/metrics
 ```
 
-## Publish to Docker Hub
+Open the interactive API documentation at `http://localhost:8000/docs`.
+
+Stop the local container when finished:
+
+```bash
+docker stop gitops-demo
+```
+
+## Publish an Image to Docker Hub (Manual Alternative)
+
+The normal project pipeline builds and pushes images through GitHub Actions. For a manual test, authenticate to Docker Hub and push a tagged image:
 
 ```bash
 docker login
 
 docker tag gitops-demo:v1 baghelgaurav/gitops-demo:v1
-
 docker push baghelgaurav/gitops-demo:v1
 ```
 
-The published image is consumed by the Kubernetes Deployment.
+The Kubernetes Deployment uses an image from `baghelgaurav/gitops-demo`. In the automated workflow, GitHub Actions tags each image with `sha-<7-character-commit-sha>` and commits that image tag to `k8s/deployment.yaml`; Argo CD then reconciles the cluster to the manifest stored in Git.
