@@ -80,3 +80,7 @@ Argo CD exposes two important status indicators:
 
 - **Synced:** Live resources match the desired Git configuration.
 - **Healthy:** Managed resources are considered healthy.
+
+The Application details view below shows both indicators for `gitops-demo` after a successful reconciliation.
+
+![Argo CD Application view showing Synced and Healthy status](../screenshots/01-argocd-dashboard.png)

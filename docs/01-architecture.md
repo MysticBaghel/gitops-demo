@@ -54,6 +54,10 @@ The repository defines the desired state of the application.
 
 Argo CD compares this desired state with the live Kubernetes resources and attempts to reconcile differences.
 
+When reconciliation succeeds, the Application reports `Synced` and `Healthy`, and the detail tree shows the Namespace, Service, Deployment, ServiceMonitor, ReplicaSets, and Pods managed by the Application.
+
+![Argo CD Application detail tree showing Synced and Healthy resources](../screenshots/01-argocd-dashboard.png)
+
 ## Resource Organization
 
 - `gitops-demo` namespace: Application workloads.

@@ -100,6 +100,40 @@ The project also implements an observability stack to monitor application perfor
 - Jaeger trace visualization and inspection.
 - Request-level tracing to investigate application latency and errors.
 
+## Screenshots
+
+The `screenshots/` directory contains evidence captured from the running environment.
+
+### Argo CD Application — Synced and Healthy
+
+The Argo CD Application view shows the `gitops-demo` Application as `Synced` and `Healthy`, with the Deployment, Service, and Pods reconciled from Git.
+
+![Argo CD Application dashboard showing Synced and Healthy status](screenshots/01-argocd-dashboard.png)
+
+### Kubernetes Resources
+
+`kubectl get all -n gitops-demo` shows two running Pods, the NodePort Service on port `30080`, and a Deployment with two available replicas.
+
+![kubectl output for the gitops-demo namespace](screenshots/02-kubernetes-resources.png)
+
+### GitHub Actions CI Pipeline
+
+The **Build and Deploy GitOps Demo** workflow completes successfully and publishes a new image tag for each application change.
+
+![Successful GitHub Actions workflow runs](screenshots/03-github-actions.png)
+
+### Docker Hub Images
+
+Each GitHub Actions run pushes an immutable `sha-<commit>` tagged image to Docker Hub.
+
+![Docker Hub tags for baghelgaurav/gitops-demo](screenshots/04-dockerhub.png)
+
+### Running Application
+
+The deployed FastAPI application serves its interactive OpenAPI documentation with the `/` and `/health` endpoints.
+
+![FastAPI Swagger UI for the GitOps Demo API](screenshots/05-running-application.png)
+
 ## Repository Structure
 
 | Directory / File | Purpose |
@@ -108,6 +142,7 @@ The project also implements an observability stack to monitor application perfor
 | `argocd/` | Argo CD Application configuration |
 | `k8s/` | Kubernetes manifests |
 | `docs/` | Technical documentation |
+| `screenshots/` | Captured evidence of the running deployment and pipeline |
 | `main.py` | FastAPI application |
 | `requirements.txt` | Python dependencies |
 | `Dockerfile` | Application container configuration |

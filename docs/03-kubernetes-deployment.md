@@ -59,6 +59,12 @@ Access the application:
 minikube service gitops-demo-service -n gitops-demo --url
 ```
 
+## Deployed Resources
+
+`kubectl get all -n gitops-demo` confirms the expected resources: two running Pods, the NodePort Service exposed on port `30080`, and a Deployment with two available replicas.
+
+![kubectl get all output for the gitops-demo namespace](../screenshots/02-kubernetes-resources.png)
+
 ## Self-Healing Demonstration
 
 Kubernetes maintains the desired number of replicas.

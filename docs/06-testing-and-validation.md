@@ -128,17 +128,36 @@ Push a change to one of the paths configured in `.github/workflows/build-push.ya
 
 The workflow uses image tags in the format `sha-<7-character-commit-sha>`. The workflow requires the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository Actions secrets.
 
-## 7. Evidence to Capture
+## 7. Captured Evidence
 
-Capture screenshots only after verifying the corresponding result:
+The `screenshots/` directory holds the evidence captured from the validated environment. Each image corresponds to a completed check:
 
-- `kubectl get nodes` showing the Minikube node as `Ready`.
-- `kubectl get pods -n gitops-demo` showing the application Pods running.
-- FastAPI `/` or `/health` response in the browser or terminal.
-- Argo CD Application view showing `Synced` and `Healthy`.
-- GitHub Actions run showing a successful image build and push.
-- GitHub commit showing the automated image-tag update.
-- Deployment showing three available replicas after the Git-driven scaling change.
-- Deployment returning to two replicas after the self-healing test.
+| Screenshot | Verifies |
+|---|---|
+| [Argo CD Application](../screenshots/01-argocd-dashboard.png) | Application reports `Synced` and `Healthy` with all managed resources present. |
+| [Kubernetes resources](../screenshots/02-kubernetes-resources.png) | Two running Pods, the NodePort Service, and a Deployment with two available replicas. |
+| [GitHub Actions](../screenshots/03-github-actions.png) | The **Build and Deploy GitOps Demo** workflow completes successfully. |
+| [Docker Hub](../screenshots/04-dockerhub.png) | Image tags such as `sha-b5fee70` are published to Docker Hub. |
+| [Running application](../screenshots/05-running-application.png) | The deployed FastAPI application serves the `/` and `/health` endpoints. |
+
+### Argo CD Application
+
+![Argo CD Application showing Synced and Healthy status](../screenshots/01-argocd-dashboard.png)
+
+### Kubernetes Resources
+
+![kubectl get all output for the gitops-demo namespace](../screenshots/02-kubernetes-resources.png)
+
+### GitHub Actions Pipeline
+
+![Successful GitHub Actions workflow runs](../screenshots/03-github-actions.png)
+
+### Docker Hub Images
+
+![Docker Hub image tags for baghelgaurav/gitops-demo](../screenshots/04-dockerhub.png)
+
+### Running Application
+
+![FastAPI Swagger UI for the GitOps Demo API](../screenshots/05-running-application.png)
 
 Do not mark a test as completed until its result has been observed in the cluster or the relevant GitHub/Argo CD interface.

@@ -62,6 +62,14 @@ The workflow:
 
 The GitHub repository must have the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` Actions secrets configured for the image-push step.
 
+The **Build and Deploy GitOps Demo** workflow runs successfully for application changes:
+
+![Successful GitHub Actions workflow runs](../screenshots/03-github-actions.png)
+
+Each run pushes an immutable `sha-<7-character-commit-sha>` tag to Docker Hub:
+
+![Docker Hub tags created by the workflow](../screenshots/04-dockerhub.png)
+
 ## Manifest Change-to-Deployment Workflow
 
 A change made directly to a Kubernetes manifest in `k8s/` follows the GitOps path without needing a new application image.

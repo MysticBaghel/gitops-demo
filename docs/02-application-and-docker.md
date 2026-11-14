@@ -71,7 +71,9 @@ curl http://localhost:8000/health
 curl http://localhost:8000/metrics
 ```
 
-Open the interactive API documentation at `http://localhost:8000/docs`.
+Open the interactive API documentation at `http://localhost:8000/docs`. The deployed application exposes the same interface with the `/` and `/health` endpoints.
+
+![FastAPI Swagger UI for the GitOps Demo API](../screenshots/05-running-application.png)
 
 Stop the local container when finished:
 
